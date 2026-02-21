@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="welcome-section" style="margin-bottom: 2rem;">
+    <h1>Welcome, {{ current_user.username }}</h1>
+    <p style="color: var(--text-secondary);">Your daily dispatch and performance overview.</p>
+</div>
+
+<div class="kpi-container">
+    <div class="kpi-card" style="--accent-color: var(--success);">
+        <span class="kpi-label">Safety Score</span>
+        <span class="kpi-value">{{ profile.safety_score|default(100) }}%</span>
+        <span class="kpi-trend up"><i class="fas fa-shield-halved"></i> High performance</span>
+    </div>
+    <div class="kpi-card" style="--accent-color: var(--accent-color);">
+        <span class="kpi-label">Assigned Trips</span>
+        <span class="kpi-value">{{ trips|length }}</span>
+        <span class="kpi-trend"><i class="fas fa-route"></i> Total tasks</span>
+    </div>
+</div>
+
+<div class="data-section">
+    <div class="section-header">
+        <h2>Your Active & Past Trips</h2>
+        <a href="{{ url_for('expenses') }}" class="btn btn-primary">Log Fuel Expense</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Trip ID</th>
+                <th>Vehicle</th>
+                <th>Destination</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trip in trips %}
+            <tr>
+                <td>#{{ trip._id|string|slice(-5) if trip._id else 'N/A' }}</td>
+                <td><strong>{{ trip.vehicle_id }}</strong></td>
+                <td>{{ trip.destination }}</td>
+                <td><span class="status {{ 'status-on-trip' if trip.status == 'On Trip' else 'status-idle' }}">{{
+                        trip.status }}</span></td>
+                <td>{{ trip.created_at.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No trips
+                    assigned yet. Contact your manager.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* Hide the sidebar for drivers if you want a fully focused view, 
+   or keep it if they need to access the expense log. 
+   I have restricted the sidebar links in the base.html for the next step. */
+</style>
+{% endblock %}

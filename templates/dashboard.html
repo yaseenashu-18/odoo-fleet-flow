@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="kpi-container">
+    <div class="kpi-card" data-stat="active_fleet" style="--accent-color: var(--success);">
+        <span class="kpi-label">Active Fleet</span>
+        <span class="kpi-value">{{ active_fleet }}</span>
+        <span class="kpi-trend up"><i class="fas fa-arrow-up"></i> Vehicles on road</span>
+    </div>
+    <div class="kpi-card" data-stat="maintenance_alerts" style="--accent-color: var(--danger);">
+        <span class="kpi-label">Maintenance Alerts</span>
+        <span class="kpi-value">{{ maintenance_alerts }}</span>
+        <span class="kpi-trend down"><i class="fas fa-exclamation-triangle"></i> In shop for repairs</span>
+    </div>
+    <div class="kpi-card" data-stat="pending_cargo" style="--accent-color: var(--warning);">
+        <span class="kpi-label">Pending Cargo</span>
+        <span class="kpi-value">{{ pending_cargo }}</span>
+        <span class="kpi-trend"><i class="fas fa-clock"></i> Awaiting dispatch</span>
+    </div>
+    <div class="kpi-card" data-stat="util_rate" style="--accent-color: var(--accent-color);">
+        <span class="kpi-label">Utilization Rate</span>
+        <span class="kpi-value">{{ util_rate }}%</span>
+        <span class="kpi-trend up"><i class="fas fa-chart-line"></i> Real-time fleet usage</span>
+    </div>
+</div>
+
+<div class="data-section">
+    <div class="section-header">
+        <h2>Live Trip Monitoring</h2>
+        <div class="actions">
+            <a href="{{ url_for('trips') }}" class="btn btn-primary">+ New Trip</a>
+        </div>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Trip ID</th>
+                <th>Vehicle</th>
+                <th>Driver</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trip in recent_trips %}
+            <tr>
+                <td>#{{ trip._id[-5:] }}</td>
+                <td>{{ trip.vehicle_id }}</td>
+                <td>{{ trip.driver }}</td>
+                <td>{{ trip.origin }}</td>
+                <td>{{ trip.destination }}</td>
+                <td><span class="status status-{{ trip.status.lower().replace(' ', '-') }}">{{ trip.status }}</span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No active trips
+                    found. Start by dispatching a vehicle.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

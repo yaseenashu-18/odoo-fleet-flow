@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 600px; margin-top: 2rem;">
+    <div class="auth-header">
+        <i class="fas fa-tools"></i>
+        <h1>Log New Repair</h1>
+        <p>Record a maintenance or repair issue for a vehicle.</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="vehicle_id">Select Vehicle</label>
+            <select name="vehicle_id" id="vehicle_id" required>
+                {% for v in vehicles %}
+                <option value="{{ v._id }}">{{ v.plate }} - {{ v.model }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="issue">Reported Issue</label>
+            <input type="text" id="issue" name="issue" required placeholder="e.g. Brake pad replacement">
+        </div>
+        <div class="form-group">
+            <label for="date">Incident Date</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+        <div class="form-group">
+            <label for="cost">Estimated Cost (₹)</label>
+            <input type="number" id="cost" name="cost" required placeholder="0">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1; padding: 1rem;">Log Repair</button>
+            <a href="{{ url_for('maintenance') }}" class="btn"
+                style="flex: 1; text-align: center; padding: 1rem; background: var(--glass-bg); color: var(--text-primary); text-decoration: none;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="data-section">
+    <div class="section-header">
+        <h2>Drivers List & Scores</h2>
+        <a href="{{ url_for('add_driver') }}" class="btn btn-primary">+ New Driver</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Duty</th>
+                <th>Name</th>
+                <th>License#</th>
+                <th>Expiry</th>
+                <th>Completion Rate</th>
+                <th>Safety Score</th>
+                <th>Complaints</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in drivers %}
+            <tr>
+                <td>
+                    <label class="switch">
+                        <input type="checkbox" {% if driver.status=='On Duty' %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </td>
+                <td><strong>{{ driver.name }}</strong></td>
+                <td>{{ driver.license }}</td>
+                <td>{{ driver.license_expiry }}</td>
+                <td>{{ driver.completion_rate }}%</td>
+                <td>{{ driver.safety_score }}/100</td>
+                <td>{{ driver.complaints }}</td>
+                <td>
+                    {% if driver.is_expired %}
+                    <span class="status status-expired"
+                        style="background: rgba(221, 44, 0, 0.08); color: #dd2c00; border: 1px solid #dd2c00;">Expired
+                        (Locked)</span>
+                    {% else %}
+                    <span class="status status-on-duty"
+                        style="background: rgba(78, 52, 46, 0.08); color: #4e342e; border: 1px solid #4e342e;">{{
+                        driver.status }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No drivers
+                    registered yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="info-card" {% endblock %}

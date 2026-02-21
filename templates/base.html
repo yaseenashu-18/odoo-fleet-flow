@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetFlow - Advanced Fleet Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        {% if current_user.is_authenticated %}
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck-fast"></i>
+                    <span>FleetFlow</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="{{ 'active' if request.endpoint == 'dashboard' }}">
+                        <a href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    {% if current_user.role == 'Admin' %}
+                    <li class="{{ 'active' if request.endpoint == 'team' }}">
+                        <a href="{{ url_for('team') }}">
+                            <i class="fas fa-users-gear"></i>
+                            <span>My Team</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if current_user.role != 'Driver' %}
+                    <li class="{{ 'active' if request.endpoint == 'vehicles' }}">
+                        <a href="{{ url_for('vehicles') }}">
+                            <i class="fas fa-car-side"></i>
+                            <span>All Vehicles</span>
+                        </a>
+                    </li>
+                    <li class="{{ 'active' if request.endpoint == 'trips' }}">
+                        <a href="{{ url_for('trips') }}">
+                            <i class="fas fa-route"></i>
+                            <span>Assign Trips</span>
+                        </a>
+                    </li>
+                    <li class="{{ 'active' if request.endpoint == 'maintenance' }}">
+                        <a href="{{ url_for('maintenance') }}">
+                            <i class="fas fa-tools"></i>
+                            <span>Repair Shop</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="{{ 'active' if request.endpoint == 'expenses' }}">
+                        <a href="{{ url_for('expenses') }}">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Fuel & Bills</span>
+                        </a>
+                    </li>
+                    {% if current_user.role != 'Driver' %}
+                    <li class="{{ 'active' if request.endpoint == 'drivers' }}">
+                        <a href="{{ url_for('drivers') }}">
+                            <i class="fas fa-user-shield"></i>
+                            <span>Driver Scores</span>
+                        </a>
+                    </li>
+                    <li class="{{ 'active' if request.endpoint == 'analytics' }}">
+                        <a href="{{ url_for('analytics') }}">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Total Profit</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">{{ current_user.username[0].upper() }}</div>
+                    <div class="user-details">
+                        <span class="user-name">{{ current_user.username }}</span>
+                        <span class="user-role">{{ current_user.role }}</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </aside>
+        {% endif %}
+
+        <main class="main-content {{ 'full-width' if not current_user.is_authenticated }}">
+            <header class="top-header">
+                <div class="header-left">
+                    {% if current_user.is_authenticated %}
+                    <h1>{{ request.endpoint.capitalize() if request.endpoint else 'Home' }}</h1>
+                    {% endif %}
+                </div>
+                <div class="header-right">
+                    {% if current_user.is_authenticated %}
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search for trips, vehicles...">
+                    </div>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </header>
+
+            <div class="page-content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

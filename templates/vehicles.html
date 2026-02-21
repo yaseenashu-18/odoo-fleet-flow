@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="data-section">
+    <div class="section-header">
+        <h2>Our Vehicles</h2>
+        <a href="{{ url_for('add_vehicle') }}" class="btn btn-primary">+ New Vehicle</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>NO</th>
+                <th>Plate</th>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Capacity</th>
+                <th>Odometer</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><strong>{{ vehicle.plate }}</strong></td>
+                <td>{{ vehicle.model }}</td>
+                <td>{{ vehicle.type }}</td>
+                <td>{{ vehicle.capacity }}</td>
+                <td>{{ vehicle.odometer }} km</td>
+                <td><span class="status status-{{ vehicle.status.lower().replace(' ', '-') }}"
+                        style="background: rgba(78, 52, 46, 0.08); color: #4e342e; border: 1px solid #4e342e;">{{
+                        vehicle.status
+                        }}</span></td>
+                <td>
+                    <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No vehicles
+                    registered yet. Add your first vehicle.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="info-card" {% endblock %}

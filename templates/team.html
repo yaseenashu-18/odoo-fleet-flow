@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="data-section">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h2>My Business Team</h2>
+            <p style="color: var(--text-secondary);">Manage all staff members linked to your business.</p>
+        </div>
+        <a href="{{ url_for('add_team_member') }}" class="btn btn-primary">+ Add Team Member</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Joined Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in team %}
+            <tr>
+                <td><strong>{{ member.username }}</strong></td>
+                <td>
+                    <span class="status"
+                        style="background: rgba(78, 52, 46, 0.08); color: #4e342e; border: 1px solid #4e342e;">
+                        {% if member.role == 'Dispatcher' %}Office Staff{% elif member.role == 'Maintenance'
+                        %}Mechanic{% else %}{{ member.role }}{% endif %}
+                    </span>
+                </td>
+                <td>{{ member.created_at.strftime('%Y-%m-%d %H:%M') if member.created_at else 'N/A' }}</td>
+                <td><span class="status status-on-duty">Active</span></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                    No team members found. Start by adding your staff.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="info-card"
+    style="margin-top: 2rem; background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-color);">
+    <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-info-circle"></i> Business Privacy Active</h4>
+    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+        Only users listed above can see your vehicles and trips. Anyone else using FleetFlow across India is completely
+        blocked from your data.
+    </p>
+</div>
+{% endblock %}

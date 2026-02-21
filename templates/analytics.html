@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="kpi-container">
+    <div class="kpi-card" style="--accent-color: var(--warning);">
+        <span class="kpi-label">Total Fuel Cost</span>
+        <span class="kpi-value">₹{{ total_fuel_cost }}</span>
+        <span class="kpi-trend down"><i class="fas fa-gas-pump"></i> Monthly fuel spend</span>
+    </div>
+    <div class="kpi-card" style="--accent-color: var(--success);">
+        <span class="kpi-label">Fleet ROI</span>
+        <span class="kpi-value">{% if fleet_roi > 0 %}+{% endif %}{{ fleet_roi }}%</span>
+        <span class="kpi-trend up"><i class="fas fa-chart-line"></i> Optimized performance</span>
+    </div>
+    <div class="kpi-card" style="--accent-color: var(--accent-color);">
+        <span class="kpi-label">Utilization Rate</span>
+        <span class="kpi-value">{{ util_rate }}%</span>
+        <span class="kpi-trend"><i class="fas fa-truck-loading"></i> High efficiency</span>
+    </div>
+</div>
+
+<div class="charts-grid">
+    <div class="chart-card">
+        <h3>Fuel Efficiency Trend (km/L)</h3>
+        <canvas id="efficiencyChart"></canvas>
+    </div>
+    <div class="chart-card">
+        <h3>Top 5 Costliest Vehicles</h3>
+        <canvas id="costChart"></canvas>
+    </div>
+</div>
+
+<div class="data-section">
+    <div class="section-header">
+        <h2>Monthly Profit List</h2>
+        <button class="btn btn-primary"><i class="fas fa-file-export"></i> Download Report</button>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Revenue</th>
+                <th>Fuel Cost</th>
+                <th>Maintenance</th>
+                <th>Net Profit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in monthly_data %}
+            <tr>
+                <td>{{ row.month }}</td>
+                <td>₹{{ row.revenue / 100000 }} L</td>
+                <td>₹{{ row.fuel / 100000 }} L</td>
+                <td>₹{{ row.maint / 100000 }} L</td>
+                <td><strong style="color: var(--success);">₹{{ row.profit / 100000 }} L</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fuel Efficiency Chart - DYNAMIC
+    const effLabels = [{% for item in fuel_efficiency %}'{{ item.month }}', {% endfor %}];
+    const effData = [{% for item in fuel_efficiency %}{ { item.val } }, {% endfor %}];
+
+    if (effLabels.length === 0) { effLabels.push('No Data'); effData.push(0); }
+
+    const effCtx = document.getElementById('efficiencyChart').getContext('2d');
+    new Chart(effCtx, {
+        type: 'line',
+        data: {
+            labels: effLabels,
+            datasets: [{
+                label: 'Efficiency',
+                data: effData,
+                borderColor: '#4e342e', /* Mocha */
+                backgroundColor: 'rgba(78, 52, 46, 0.05)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Costliest Vehicles Chart - DYNAMIC Summary
+    const costLabels = [{% for item in monthly_data %}'{{ item.month }}', {% endfor %}];
+    const costData = [{% for item in monthly_data %}{ { item.maint } }, {% endfor %}];
+
+    const costCtx = document.getElementById('costChart').getContext('2d');
+    new Chart(costCtx, {
+        type: 'bar',
+        data: {
+            labels: costLabels,
+            datasets: [{
+                label: 'Monthly Maintenance',
+                data: costData,
+                backgroundColor: '#5d4037', /* Dark Mocha */
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+</script>
+{% endblock %}

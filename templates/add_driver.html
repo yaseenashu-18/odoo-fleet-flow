@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 600px; margin-top: 2rem;">
+    <div class="auth-header">
+        <i class="fas fa-id-card"></i>
+        <h1>Register New Driver</h1>
+        <p>Create a profile and login for a new fleet driver.</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">Full Name (Username)</label>
+            <input type="text" id="name" name="name" required placeholder="e.g. Manikanta">
+        </div>
+        <div class="form-group">
+            <label for="license">License Number</label>
+            <input type="text" id="license" name="license" required placeholder="e.g. DL-123456789">
+        </div>
+        <div class="form-group">
+            <label for="expiry">License Expiry Date</label>
+            <input type="date" id="expiry" name="expiry" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Set Login Password</label>
+            <input type="password" id="password" name="password" required placeholder="Member will use this to login">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1; padding: 1rem;">Register Driver</button>
+            <a href="{{ url_for('drivers') }}" class="btn"
+                style="flex: 1; text-align: center; padding: 1rem; background: var(--glass-bg); color: var(--text-primary); text-decoration: none;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

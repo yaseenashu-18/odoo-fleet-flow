@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="data-section">
+    <div class="section-header">
+        <h2>Repair Shop Records</h2>
+        <a href="{{ url_for('add_maintenance') }}" class="btn btn-primary">+ Log Repair</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Log ID</th>
+                <th>Vehicle</th>
+                <th>Issue/Service</th>
+                <th>Date</th>
+                <th>Cost</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log._id[-5:] }}</td>
+                <td>{{ log.vehicle_plate }}</td>
+                <td>{{ log.issue }}</td>
+                <td>{{ log.date }}</td>
+                <td>₹{{ log.cost }}</td>
+                <td><span class="status status-{{ log.status.lower() }}"
+                        style="background: rgba(78, 52, 46, 0.08); color: #4e342e; border: 1px solid #4e342e;">{{
+                        log.status }}</span></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No maintenance
+                    logs yet. Keep your fleet healthy.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="info-card" {% endblock %}

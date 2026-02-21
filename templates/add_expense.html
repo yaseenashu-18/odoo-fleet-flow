@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 600px; margin-top: 2rem;">
+    <div class="auth-header">
+        <i class="fas fa-file-invoice-dollar"></i>
+        <h1>Add New Bill/Expense</h1>
+        <p>Record fuel costs or miscellaneous expenses.</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="trip_id">Trip Reference ID</label>
+            <input type="text" id="trip_id" name="trip_id" required placeholder="e.g. #ABC12">
+        </div>
+        <div class="form-group">
+            <label for="driver">Driver Name</label>
+            <input type="text" id="driver" name="driver" required placeholder="e.g. Manikanta">
+        </div>
+        <div class="form-group">
+            <label for="distance">Distance Traveled (km)</label>
+            <input type="number" id="distance" name="distance" required placeholder="e.g. 450">
+        </div>
+        <div class="form-group">
+            <label for="fuel_cost">Fuel Cost (₹)</label>
+            <input type="number" id="fuel_cost" name="fuel_cost" required placeholder="e.g. 5000">
+        </div>
+        <div class="form-group">
+            <label for="liters">Fuel Quantity (Liters)</label>
+            <input type="number" step="0.1" id="liters" name="liters" required placeholder="e.g. 55.5">
+        </div>
+        <div class="form-group">
+            <label for="misc_cost">Miscellaneous Bills (₹)</label>
+            <input type="number" id="misc_cost" name="misc_cost" value="0">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1; padding: 1rem;">Save Expense</button>
+            <a href="{{ url_for('expenses') }}" class="btn"
+                style="flex: 1; text-align: center; padding: 1rem; background: var(--glass-bg); color: var(--text-primary); text-decoration: none;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

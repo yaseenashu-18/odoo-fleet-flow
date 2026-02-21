@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="data-section">
+    <div class="section-header">
+        <h2>Fuel & Bills List</h2>
+        <a href="{{ url_for('add_expense') }}" class="btn btn-primary">+ Add New Bill</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Trip ID</th>
+                <th>Driver</th>
+                <th>Distance (km)</th>
+                <th>Fuel Expense</th>
+                <th>Misc. Expense</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>#{{ expense.trip_id[-5:] if expense.trip_id else 'N/A' }}</td>
+                <td>{{ expense.driver }}</td>
+                <td>{{ expense.distance }} km</td>
+                <td>₹{{ expense.fuel_cost }}</td>
+                <td>₹{{ expense.misc_cost }}</td>
+                <td><span class="status status-on-trip"
+                        style="background: rgba(78, 52, 46, 0.08); color: #4e342e; border: 1px solid #4e342e;">Done</span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No expense logs
+                    found. Start by adding one.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="info-card" {% endblock %}

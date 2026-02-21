@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="split-auth">
+    <div class="auth-visual">
+        <div class="visual-content">
+            <h2>Join the Fleet.</h2>
+            <p>Start managing your logistics business with a premium, data-driven platform designed for modern fleet
+                owners.</p>
+        </div>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-container">
+            <div class="auth-header">
+                <i class="fas fa-truck-fast"></i>
+                <h1>Get Started</h1>
+                <p>Create your admin account in seconds.</p>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="username">Business Name / Admin User</label>
+                    <input type="text" id="username" name="username" required placeholder="e.g. Rikshith Logistics">
+                </div>
+                <div class="form-group">
+                    <label for="password">Security Password</label>
+                    <input type="password" id="password" name="password" required
+                        placeholder="Create a strong password">
+                </div>
+
+                <div class="info-card"
+                    style="margin-bottom: 2rem; background: var(--accent-glow); padding: 1rem; border-radius: 8px;">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <i class="fas fa-info-circle"></i> This will be your primary business account.
+                    </p>
+                </div>
+
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 1rem; font-size: 1.1rem;">Create Business Account</button>
+            </form>
+
+            <div class="auth-footer" style="text-align: left;">
+                Already have an account? <a href="{{ url_for('login') }}" style="font-weight: 600;">Sign In Instead</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

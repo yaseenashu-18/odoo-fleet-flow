@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 600px; margin-top: 2rem;">
+    <div class="auth-header">
+        <i class="fas fa-truck"></i>
+        <h1>Vehicle Registration</h1>
+        <p>Add a new vehicle to your business fleet.</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="plate">License Plate</label>
+            <input type="text" id="plate" name="plate" required placeholder="e.g. MH 01 AB 1234">
+        </div>
+        <div class="form-group">
+            <label for="model">Model/Name</label>
+            <input type="text" id="model" name="model" required placeholder="e.g. Tata Prima 4028.S">
+        </div>
+        <div class="form-group">
+            <label for="type">Vehicle Type</label>
+            <select name="type" id="type">
+                <option value="Trailer Truck">Trailer Truck</option>
+                <option value="Mini Van">Mini Van</option>
+                <option value="Container">Container</option>
+                <option value="Refrigerated">Refrigerated</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="capacity">Max Payload (kg/tons)</label>
+            <input type="text" id="capacity" name="capacity" required placeholder="e.g. 5 tons">
+        </div>
+        <div class="form-group">
+            <label for="odometer">Initial Odometer (km)</label>
+            <input type="number" id="odometer" name="odometer" required placeholder="0">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1; padding: 1rem;">Save Vehicle</button>
+            <a href="{{ url_for('vehicles') }}" class="btn"
+                style="flex: 1; text-align: center; padding: 1rem; background: var(--glass-bg); color: var(--text-primary); text-decoration: none;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

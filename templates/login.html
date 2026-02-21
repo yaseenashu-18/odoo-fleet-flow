@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="split-auth">
+    <div class="auth-visual">
+        <div class="visual-content">
+            <h2>Modern Fleet Control.</h2>
+            <p>Experience the next generation of logistics management with real-time tracking, AI-powered analytics, and
+                seamless team collaboration.</p>
+        </div>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-container">
+            <div class="auth-header">
+                <i class="fas fa-truck-fast"></i>
+                <h1>Welcome Back</h1>
+                <p>Login to manage your fleet operations.</p>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="e.g. rikshith26">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">Sign In</button>
+            </form>
+
+            <div class="auth-footer" style="text-align: left;">
+                Don't have an account? <a href="{{ url_for('register') }}" style="font-weight: 600;">Get Started
+                    Free</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
